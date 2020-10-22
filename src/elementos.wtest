@@ -1,0 +1,44 @@
+import elementos.*
+import plagas.*
+import barrios.*
+
+describe "test de plagas"{
+	const barrio = new Barrio()
+	const hogar = new Hogar(nivelDeMugre = 5, confort = 10)
+	const huerta = new Huerta(capacidadDeProduccion = 10, nivel = 20)
+	const mascota = new Mascota(nivelDeSalud = 251)
+	const pulgas = new Pulgas(poblacion = 20)
+	const garrapatas = new Garrapatas(poblacion = 5)
+	const cucas = new Cucarachas(poblacion = 20, pesoPromedio = 20)
+	const mosquitos = new Mosquitos(poblacion = 15)
+	
+	test "Es Bueno"{
+		assert.that(hogar.esBueno())
+		assert.notThat(huerta.esBueno())
+		assert.that(mascota.esBueno())
+	}
+	
+	test "Barrio Copado"{
+		barrio.agregarElementos([hogar, huerta, mascota, new Hogar(nivelDeMugre = 1, confort = 10), new Hogar(nivelDeMugre = 10, confort = 50), new Hogar(nivelDeMugre = 2, confort = 4), new Hogar(nivelDeMugre = 40, confort = 10)])
+		assert.that(barrio.esCopado())
+	}
+	
+	test "Barrio no copado"{
+		barrio.agregarElementos([hogar, huerta, mascota, new Hogar(nivelDeMugre = 1, confort = 10), new Hogar(nivelDeMugre = 100, confort = 50), new Hogar(nivelDeMugre = 10, confort = 4), new Hogar(nivelDeMugre = 40, confort = 10)])
+		assert.notThat(barrio.esCopado())
+	}
+	
+	test "palgas nivel de daño"{
+		assert.equals(40, pulgas.nivelDeDanio())
+		assert.equals(10, garrapatas.nivelDeDanio())
+		assert.equals(10, cucas.nivelDeDanio())
+		assert.equals(15, mosquitos.nivelDeDanio())
+	}
+	
+	test "Ataque de pulgas a Mascota"{
+		mascota.ataqueDePlaga(pulgas)
+		assert.equals(211, mascota.nivelDeSalud())
+	}
+	
+}
+
